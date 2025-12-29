@@ -8,7 +8,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://your-docusaurus-site.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',
 
@@ -27,11 +27,9 @@ const config = {
   markdown: {
     format: 'mdx',
     mermaid: true,
-    preprocessor: ({filePath, fileContent}) => fileContent,
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
   },
+
+  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -56,6 +54,12 @@ const config = {
         },
       }),
     ],
+  ],
+
+  themes: ['@docusaurus/theme-mermaid'],
+
+  clientModules: [
+    require.resolve('./src/client-modules/chatbot.js'),
   ],
 
   themeConfig:

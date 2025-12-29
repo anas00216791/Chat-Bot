@@ -1,0 +1,51 @@
+# Node modules - ALL directories
+node_modules/
+**/node_modules/
+
+# Build outputs
+build/
+dist/
+.next/
+
+# Cache files
+.cache/
+**/.cache/
+*.pack
+
+# Docusaurus
+.docusaurus/
+**/.docusaurus/
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+cd
+npm
+nul
