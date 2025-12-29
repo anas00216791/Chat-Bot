@@ -41,26 +41,22 @@ const config = {
 
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          routeBasePath: '/', // Keep docs at root for now
+          sidebarPath: './sidebars.js',
+          routeBasePath: '/',
         },
         blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: './src/css/custom.css',
         },
       }),
     ],
   ],
 
   themes: ['@docusaurus/theme-mermaid'],
-
-  clientModules: [
-    require.resolve('./src/client-modules/chatbot.js'),
-  ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
