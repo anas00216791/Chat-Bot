@@ -1,0 +1,105 @@
+---
+title: RAG Chatbot Integration Guide
+---
+
+# RAG Chatbot Integration Guide
+
+This guide explains how to use the integrated RAG (Retrieval-Augmented Generation) chatbot that's embedded in our book. The chatbot helps you understand the content by answering questions based on the book material.
+
+## How to Use the Chatbot
+
+### 1. Opening the Chatbot
+- Look for the 💬 **Ask Book** button in the bottom-right corner of any page
+- Click the button to open the chat interface
+
+### 2. Two Query Modes
+
+The chatbot operates in two modes:
+
+#### Book Scope Mode (Default)
+- Answers questions using the entire book content
+- Best for general questions about topics covered in the book
+- Example: "What is ROS 2?" or "Explain PID controllers"
+
+#### Selected Text Mode
+- Answers questions based only on text you've selected on the page
+- Activated automatically when you select text and then open the chatbot
+- Best for clarifying specific passages you're reading
+- Example: After selecting "The robot uses a PID controller for motion control", you can ask "What type of controller does the robot use?"
+
+### 3. Asking Questions
+- Type your question in the text box at the bottom
+- Press Enter or click the Send button
+- The chatbot will retrieve relevant information and generate an answer
+- Sources will be shown when available
+
+## Technical Architecture
+
+The chatbot system consists of:
+
+- **Frontend**: React component integrated into Docusaurus pages
+- **Backend**: FastAPI server with PostgreSQL full-text search
+- **AI**: Claude 4.5 Sonnet with constitutional prompting
+- **Retrieval**: PostgreSQL tsvector/ts_rank for keyword-based search
+
+## Constitutional Principles
+
+Our chatbot follows strict principles:
+
+- **Zero Hallucination**: Only uses information from the book
+- **Context Boundaries**: Respects selected text vs. book scope boundaries
+- **Transparency**: Uses standard refusal when information is unavailable
+- **Adversarial Robustness**: Resists jailbreak attempts
+
+## Troubleshooting
+
+### Common Issues:
+- **Chatbot not responding**: Make sure the RAG backend server is running on `http://localhost:8000`
+- **No results for queries**: Verify book content has been properly ingested into the database
+- **Selected text mode not working**: Make sure to select text before opening the chatbot
+
+### Error Messages:
+- **"Information not available in provided text"**: The answer isn't in the book content
+- **Connection errors**: Check that your backend server is running and accessible
+
+## Development
+
+To run the RAG backend server locally:
+
+```bash
+cd backend/src/rag
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+The frontend is already integrated into the Docusaurus build system and will be available when you run:
+
+```bash
+cd my-book
+npm run start
+```
+
+## API Reference
+
+The chatbot communicates with the backend API at `http://localhost:8000` with these endpoints:
+
+- `POST /query` - Main query endpoint
+- `GET /health` - Health check
+
+Request format:
+```json
+{
+  "query": "Your question",
+  "mode": "book_scope|selected_text_only",
+  "selected_text": "Text selected by user (for selected_text_only mode)"
+}
+```
+
+Response format:
+```json
+{
+  "success": true,
+  "answer": "The answer",
+  "sources": ["list of sources"],
+  "context_used": true
+}
+```
